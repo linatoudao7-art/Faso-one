@@ -1,0 +1,21 @@
+# Python
+backend/.venv/
+backend/__pycache__/
+backend/*.pyc
+
+# Base de données locale
+backend/*.db
+
+# Secrets
+.env
+**/.env
+
+# Flutter
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+
+# IDE
+.idea/
+.vscode/

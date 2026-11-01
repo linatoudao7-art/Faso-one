@@ -1,122 +1,430 @@
+
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const FasoOneApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FasoOneApp extends StatelessWidget {
+  const FasoOneApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'FASO ONE',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF087443),
+        ),
+        useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _HomePageState extends State<HomePage> {
+  String langue = 'Français';
 
-  void _incrementCounter() {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF7F9F7),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Column(
+                children: [
+                  const Icon(
+                    Icons.account_balance,
+                    size: 85,
+                    color: Color(0xFF087443),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'FASO ONE',
+                    style: TextStyle(
+                      fontSize: 34,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF087443),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Vos services publics, plus accessibles.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 17),
+                  ),
+                  const SizedBox(height: 35),
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Choisissez votre langue',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  DropdownButtonFormField<String>(
+                    value: langue,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    items: const [
+                      DropdownMenuItem(
+                        value: 'Français',
+                        child: Text('Français'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Mooré',
+                        child: Text('Mooré'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Dioula',
+                        child: Text('Dioula'),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() => langue = value);
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 25),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 55,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF087443),
+                        foregroundColor: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ServicesPage(
+                              langue: langue,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Commencer',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  const Text(
+                    'Une porte d’entrée vers les services publics.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ServicesPage extends StatelessWidget {
+  final String langue;
+
+  const ServicesPage({
+    super.key,
+    required this.langue,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF7F9F7),
+      appBar: AppBar(
+        title: const Text('FASO ONE'),
+        backgroundColor: const Color(0xFF087443),
+        foregroundColor: Colors.white,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Choisir une démarche',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text('Langue sélectionnée : $langue'),
+                const SizedBox(height: 24),
+                ServiceCard(
+                  icon: Icons.child_care,
+                  title: 'Extrait d’acte de naissance',
+                  description: 'Démarche de démonstration',
+                ),
+                ServiceCard(
+                  icon: Icons.gavel,
+                  title: 'Casier judiciaire',
+                  description: 'Démarche de démonstration',
+                ),
+                ServiceCard(
+                  icon: Icons.verified_user,
+                  title: 'Certificat de nationalité',
+                  description: 'Démarche de démonstration',
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ServiceCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+
+  const ServiceCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.white,
+      margin: const EdgeInsets.only(bottom: 14),
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(16),
+        leading: Icon(
+          icon,
+          size: 35,
+          color: const Color(0xFF087443),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(description),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => RequestFormPage(service: title),
+    ),
+  );
+},
+
+      ),
+    );
+  }
+}
+
+class RequestFormPage extends StatefulWidget {
+  final String service;
+
+  const RequestFormPage({
+    super.key,
+    required this.service,
+  });
+
+  @override
+  State<RequestFormPage> createState() => _RequestFormPageState();
+}
+
+class _RequestFormPageState extends State<RequestFormPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _descriptionController = TextEditingController();
+
+  bool submitted = false;
+  String reference = '';
+
+  void submitRequest() {
+    if (!_formKey.currentState!.validate()) return;
+
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      reference =
+          'FASO-${DateTime.now().year}-${DateTime.now().millisecondsSinceEpoch.toString().substring(8)}';
+      submitted = true;
     });
   }
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: const Color(0xFFF7F9F7),
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: const Text('Nouvelle demande'),
+        backgroundColor: const Color(0xFF087443),
+        foregroundColor: Colors.white,
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: submitted
+                ? Column(
+                    children: [
+                      const Icon(
+                        Icons.check_circle,
+                        color: Color(0xFF087443),
+                        size: 80,
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Demande enregistrée pour la démonstration !',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      const Text('Votre référence de démonstration :'),
+                      const SizedBox(height: 10),
+                      SelectableText(
+                        reference,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF087443),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Cette référence est générée localement. '
+                        'La demande n’a pas encore été transmise '
+                        'à une administration.',
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 25),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.popUntil(
+                            context,
+                            (route) => route.isFirst,
+                          );
+                        },
+                        child: const Text('Retour à l’accueil'),
+                      ),
+                    ],
+                  )
+                : Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Formulaire de démonstration',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text('Démarche : ${widget.service}'),
+                        const SizedBox(height: 25),
+                        const Text('Nom du demandeur (fictif)'),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            hintText: 'Exemple : Utilisateur Démo',
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Veuillez saisir un nom fictif';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        const Text('Description de la demande'),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          controller: _descriptionController,
+                          maxLines: 4,
+                          decoration: const InputDecoration(
+                            hintText: 'Décrivez votre demande...',
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Veuillez saisir une description';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 25),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF087443),
+                              foregroundColor: Colors.white,
+                            ),
+                            onPressed: submitRequest,
+                            child: const Text(
+                              'Envoyer la demande de démonstration',
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        const Text(
+                          'N’utilisez aucune vraie donnée personnelle. '
+                          'Ce formulaire est uniquement destiné au prototype.',
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                  ),
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
 }
+
